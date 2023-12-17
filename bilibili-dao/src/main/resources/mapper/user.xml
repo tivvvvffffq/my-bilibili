@@ -12,7 +12,24 @@
         where
             phone = #{phone}
     </select>
-    
+
+    <select id="getUserById" parameterType="java.lang.Long" resultType="com.nxj.bilibili.domain.User">
+        select
+            *
+        from
+            t_user
+        where
+            id = #{id}
+    </select>
+    <select id="getUserInfoByUserId" parameterType="java.lang.Long" resultType="com.nxj.bilibili.domain.UserInfo">
+        select
+            *
+        from
+            t_user_info
+        where
+            userId = #{userId}
+    </select>
+
     <insert id="addUser" parameterType="com.nxj.bilibili.domain.User" useGeneratedKeys="true" keyProperty="id">
         insert into
             t_user(
