@@ -19,4 +19,6 @@ public interface UserDao {
     Integer updateUsers(User user);
 
     User getUserByPhoneOrEmail(String phoneOrEmail);
+
+    Integer updateUserInfos(UserInfo userInfo);
 }

@@ -3,6 +3,7 @@ package com.nxj.bilibili.api;
 import com.nxj.bilibili.api.support.UserSupport;
 import com.nxj.bilibili.domain.JsonResponse;
 import com.nxj.bilibili.domain.User;
+import com.nxj.bilibili.domain.UserInfo;
 import com.nxj.bilibili.service.UserService;
 import com.nxj.bilibili.service.util.RSAUtil;
 import io.swagger.annotations.Api;
@@ -58,6 +59,16 @@ public class UserApi {
         Long userId = userSupport.getCurrentUserId();
         user.setId(userId);
         userService.updateUsers(user);
+        return JsonResponse.success();
+    }
+
+    @ApiOperation("更新用户信息")
+    @ApiImplicitParam(name = "token", value = "用户认证令牌", required = true, dataType = "String", paramType = "header")
+    @PutMapping("/user-infos")
+    public JsonResponse<String> updateUserInfos(@RequestBody UserInfo userInfo) {
+        Long userId = userSupport.getCurrentUserId();
+        userInfo.setUserId(userId);
+        userService.updateUserInfos(userInfo);
         return JsonResponse.success();
     }
 }
