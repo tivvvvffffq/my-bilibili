@@ -61,12 +61,15 @@ public class UserService {
     }
 
     public String login(User user) throws Exception {
-        String phone = user.getPhone();
-        if(StringUtils.isNullOrEmpty(phone)) {
-            throw new ConditionException("手机号不能为空！");
-        }
+        String phone = user.getPhone() == null? "": user.getPhone();
+        String email = user.getEmail() == null? "": user.getEmail();
 
-        User dbUser = this.getUserByPhone(phone);
+        if(StringUtils.isNullOrEmpty(phone) && StringUtils.isNullOrEmpty(email)) {
+            throw new ConditionException("手机号和邮箱不能同时为空！");
+        }
+        String phoneOrEmail = phone + email;
+        User dbUser = userDao.getUserByPhoneOrEmail(phoneOrEmail);
+
         if (dbUser == null) {
             throw new ConditionException("用户不存在！");
         }
@@ -90,10 +93,26 @@ public class UserService {
         return TokenUtil.generateToken(dbUser.getId());
     }
 
+
     public User getUserInfo(Long userId) {
         User user = userDao.getUserById(userId);
         UserInfo userInfo = userDao.getUserInfoByUserId(userId);
         user.setUserInfo(userInfo);
         return user;
+    }
+
+    public void updateUsers(User user) throws Exception {
+        Long id = user.getId();
+        User dbUser = userDao.getUserById(id);
+        if (dbUser == null) {
+            throw new ConditionException("用户不存在！");
+        }
+        if(!StringUtils.isNullOrEmpty(user.getPassword())) {
+            String rawPassword = RSAUtil.decrypt(user.getPassword());
+            String md5Password = MD5Util.sign(rawPassword, dbUser.getSalt(), "UTF-8");
+            user.setPassword(md5Password);
+        }
+        user.setUpdateTime(new Date());
+        userDao.updateUsers(user);
     }
 }
