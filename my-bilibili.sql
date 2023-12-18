@@ -35,6 +35,12 @@ CREATE TABLE `t_following_group` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户关注分组表';
 
+INSERT INTO `t_following_group` (`userId`, `name`, `type`, `createTime`, `updateTime`)
+VALUES
+    (NULL, '特别关注', '0', NULL, NULL),
+    (NULL, '悄悄关注', '1', NULL, NULL),
+    (NULL, '默认分组', '2', NULL, NULL);
+
 DROP TABLE IF EXISTS `t_user_following`;
 CREATE TABLE `t_user_following` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
