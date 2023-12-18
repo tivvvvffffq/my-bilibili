@@ -50,4 +50,23 @@ public class UserFollowingApi {
         List<UserFollowing> result = userFollowingService.getUserFans(userId);
         return new JsonResponse<>(result);
     }
+
+    @ApiOperation("新建关注分组")
+    @ApiImplicitParam(name = "token", value = "用户认证令牌", required = true, dataType = "String", paramType = "header")
+    @PostMapping("user-following-groups")
+    public JsonResponse<Long> addUserFollowingGroups(@RequestBody FollowingGroup followingGroup) {
+        Long userId = userSupport.getCurrentUserId();
+        followingGroup.setUserId(userId);
+        Long groupId = userFollowingService.addUserFollowingGroups(followingGroup);
+        return new JsonResponse<>(groupId);
+    }
+
+    @ApiOperation("获取关注分组")
+    @ApiImplicitParam(name = "token", value = "用户认证令牌", required = true, dataType = "String", paramType = "header")
+    @GetMapping("user-following-groups")
+    public JsonResponse<List<FollowingGroup>> getUserFollowingGroups() {
+        Long userId = userSupport.getCurrentUserId();
+        List<FollowingGroup> list = userFollowingService.getUserFollowingGroups(userId);
+        return new JsonResponse<>(list);
+    }
 }

@@ -3,6 +3,20 @@
         PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nxj.bilibili.dao.FollowingGroupDao">
+    <insert id="addFollowingGroup" parameterType="com.nxj.bilibili.domain.FollowingGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            t_following_group(
+                userId,
+                `name`,
+                `type`,
+                createTime
+            )values(
+                #{userId},
+                #{name},
+                #{type},
+                #{createTime}
+           )
+    </insert>
 
     <select id="getByType" parameterType="java.lang.String" resultType="com.nxj.bilibili.domain.FollowingGroup">
         select
@@ -21,6 +35,7 @@
         where
             id = #{id}
     </select>
+
     <select id="getByUserId" parameterType="java.lang.Long" resultType="com.nxj.bilibili.domain.FollowingGroup">
         select
             *
@@ -28,5 +43,14 @@
             t_following_group
         where
             userId = #{userId} or `type` in ('0', '1', '2')
+    </select>
+
+    <select id="getUserFollowingGroups" parameterType="java.lang.Long" resultType="com.nxj.bilibili.domain.FollowingGroup">
+        select
+            *
+        from
+            t_following_group
+        where
+            userId = #{userId}
     </select>
 </mapper>
