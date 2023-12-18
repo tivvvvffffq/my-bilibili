@@ -29,6 +29,7 @@ public class UserFollowingService {
     @Autowired
     private UserService userService;
 
+    //关注
     @Transactional
     public void addUserFollowings(UserFollowing userFollowing) {
         Long groupId = userFollowing.getGroupId();
@@ -52,7 +53,7 @@ public class UserFollowingService {
         userFollowingDao.addUserFollowing(userFollowing);
     }
 
-    //获取关注列表
+    //获取关注分组列表
     public List<FollowingGroup> getUserFollowings(Long userId) {
         List<UserFollowing> list = userFollowingDao.getUserFollowings(userId);
         Set<Long> followingIdSet = list.stream().map(UserFollowing::getFollowingId).collect(Collectors.toSet());
@@ -87,5 +88,32 @@ public class UserFollowingService {
             result.add(group);
         }
         return result;
+    }
+
+    //获取粉丝列表
+    public List<UserFollowing> getUserFans(Long userId) {
+        List<UserFollowing> fanList = userFollowingDao.getUserFans(userId);
+        Set<Long> fanIdSet = fanList.stream().map(UserFollowing::getUserId).collect(Collectors.toSet());
+        List<UserInfo> userInfoList = new ArrayList<>();
+        if(fanIdSet.size() > 0) {
+            userInfoList = userService.getUserInfoByUserIds(fanIdSet);
+        }
+
+        List<UserFollowing> followingList = userFollowingDao.getUserFollowings(userId);
+        for(UserFollowing fan: fanList) {
+            for(UserInfo userInfo: userInfoList) {
+                if(fan.getUserId().equals(userInfo.getUserId())) {
+                    userInfo.setFollowed(false);
+                    fan.setUserInfo(userInfo);
+                }
+            }
+            for(UserFollowing following: followingList) {
+                //判断互粉
+                if(following.getFollowingId().equals(fan.getUserId())) {
+                    fan.getUserInfo().setFollowed(true);
+                }
+            }
+        }
+        return fanList;
     }
 }
