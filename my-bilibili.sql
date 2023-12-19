@@ -50,3 +50,14 @@ CREATE TABLE `t_user_following` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户关注表';
+
+DROP TABLE IF EXISTS `t_user_moments`;
+CREATE TABLE `t_user_moments` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `userId` bigint DEFAULT NULL COMMENT '用户id',
+    `type` varchar(5) DEFAULT NULL COMMENT '动态类型：0视频 1直播 2专栏',
+    `contentId` bigint DEFAULT NULL COMMENT '内容详情id',
+    `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+    `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户动态表';
