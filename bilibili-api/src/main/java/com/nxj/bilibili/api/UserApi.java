@@ -1,9 +1,12 @@
 package com.nxj.bilibili.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nxj.bilibili.api.support.UserSupport;
 import com.nxj.bilibili.domain.JsonResponse;
+import com.nxj.bilibili.domain.PageResult;
 import com.nxj.bilibili.domain.User;
 import com.nxj.bilibili.domain.UserInfo;
+import com.nxj.bilibili.service.UserFollowingService;
 import com.nxj.bilibili.service.UserService;
 import com.nxj.bilibili.service.util.RSAUtil;
 import io.swagger.annotations.Api;
@@ -11,6 +14,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "用户信息接口")
 @RequestMapping("/user")
@@ -21,6 +26,9 @@ public class UserApi {
 
     @Autowired
     private UserSupport userSupport;
+
+    @Autowired
+    private UserFollowingService userFollowingService;
 
     @ApiOperation("获取公共key")
     @GetMapping("/rsa-pks")
@@ -70,5 +78,22 @@ public class UserApi {
         userInfo.setUserId(userId);
         userService.updateUserInfos(userInfo);
         return JsonResponse.success();
+    }
+
+    @ApiOperation("分页查询用户")
+    @GetMapping("/user-infos")
+    public JsonResponse<PageResult<UserInfo>> pageListUserInfos(@RequestParam Integer no, @RequestParam Integer size, String nick) {
+        Long userId = userSupport.getCurrentUserId();
+        JSONObject params = new JSONObject();
+        params.put("no", no);
+        params.put("size", size);
+        params.put("nick", nick);
+        params.put("userId", userId);
+        PageResult<UserInfo> result = userService.pageListUserInfos(params);
+        if(result.getTotal() > 0) {
+            List<UserInfo> checkedUserInfoList = userFollowingService.checkFollowingStatus(result.getList(), userId);
+            result.setList(checkedUserInfoList);
+        }
+        return new JsonResponse<>(result);
     }
 }

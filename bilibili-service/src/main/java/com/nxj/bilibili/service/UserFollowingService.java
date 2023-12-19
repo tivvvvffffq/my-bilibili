@@ -117,6 +117,7 @@ public class UserFollowingService {
         return fanList;
     }
 
+    //新增关注分组
     public Long addUserFollowingGroups(FollowingGroup followingGroup) {
         followingGroup.setCreateTime(new Date());
         followingGroup.setType(UserConstant.USER_FOLLOWING_GROUP_TYPE_USER);
@@ -124,7 +125,22 @@ public class UserFollowingService {
         return followingGroup.getId();
     }
 
+    //获取关注分组
     public List<FollowingGroup> getUserFollowingGroups(Long userId) {
         return followingGroupService.getUserFollowingGroups(userId);
+    }
+
+    //检查关注状态
+    public List<UserInfo> checkFollowingStatus(List<UserInfo> userInfoList, Long userId) {
+        List<UserFollowing> userFollowingList = userFollowingDao.getUserFollowings(userId);
+        for(UserInfo userInfo: userInfoList) {
+            userInfo.setFollowed(false);
+            for(UserFollowing userFollowing: userFollowingList) {
+                if(userFollowing.getFollowingId().equals(userInfo.getUserId())) {
+                    userInfo.setFollowed(true);
+                }
+            }
+        }
+        return userInfoList;
     }
 }
