@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.nxj.bilibili.domain.User;
 import com.nxj.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface UserDao {
 
     Integer updateUserInfos(UserInfo userInfo);
 
-    List<UserInfo> getUserInfoByUserIds(Set<Long> userIdSet);
+    List<UserInfo> getUserInfoByUserIds(@Param("userIdList") Set<Long> userIdList);
 
     Integer pageCountUserInfos(Map<String, Object> params);
 
