@@ -12,7 +12,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,12 @@ import java.util.List;
 
 @Component
 public class RabbitMQUtil {
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private UserFollowingService userFollowingService;
@@ -34,7 +35,7 @@ public class RabbitMQUtil {
     public void produce(String key, Object payload) {
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.EXCHANGE_MSG,
-                "sys.msg." + key,
+                UserRoutingConstant.ROUTING + key,
                 payload);
         System.out.println("同步发消息");
     }
@@ -44,7 +45,7 @@ public class RabbitMQUtil {
     public void asyncProduce(String key, Object payload) {
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.EXCHANGE_MSG,
-                "sys.msg." + key,
+                UserRoutingConstant.ROUTING + key,
                 payload);
         System.out.println("异步发消息");
     }
@@ -54,17 +55,17 @@ public class RabbitMQUtil {
     public void consume(String payload, Message message) {
         String routingKey = message.getMessageProperties().getReceivedRoutingKey();
 
-        if(routingKey.equalsIgnoreCase("sys.msg." + UserRoutingConstant.MOMENTS)) {
+        if(routingKey.equalsIgnoreCase(UserRoutingConstant.ROUTING + UserRoutingConstant.MOMENTS)) {
             UserMoment userMoment = JSONObject.toJavaObject(JSONObject.parseObject(payload), UserMoment.class);
             Long userId = userMoment.getUserId();
             List<UserFollowing>fanList = userFollowingService.getUserFans(userId);
             for(UserFollowing fan: fanList) {
-                String key = "subscribed-" + fan.getUserId();
+                String key = UserRoutingConstant.REDIS_SUBSCRIBE + fan.getUserId();
                 String subscribedListStr = redisTemplate.opsForValue().get(key);
                 List<UserMoment> subscribedList;
-                if(StringUtil.isNullOrEmpty(subscribedListStr)) {
+                if (StringUtil.isNullOrEmpty(subscribedListStr)) {
                     subscribedList = new ArrayList<>();
-                }else {
+                } else {
                     subscribedList = JSONArray.parseArray(subscribedListStr, UserMoment.class);
                 }
                 subscribedList.add(userMoment);

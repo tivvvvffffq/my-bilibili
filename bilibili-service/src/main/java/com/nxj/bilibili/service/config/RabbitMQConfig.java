@@ -1,15 +1,10 @@
 package com.nxj.bilibili.service.config;
 
-
-import com.nxj.bilibili.service.UserFollowingService;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+
 
 @Configuration
 public class RabbitMQConfig {
