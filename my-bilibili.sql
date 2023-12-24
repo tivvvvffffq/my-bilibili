@@ -71,7 +71,11 @@ CREATE TABLE `t_auth_element_operation` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--页面元素操作表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--页面元素操作表';
+
+INSERT INTO `t_auth_element_operation` (`elementName`, `elementCode`, `operationType`, `createTime`, `updateTime`)
+VALUES
+    ('视频投稿按钮', 'postVideoButton', 0, NULL, NULL);
 
 DROP TABLE IF EXISTS `t_auth_menu`;
 CREATE TABLE `t_auth_menu` (
@@ -81,7 +85,7 @@ CREATE TABLE `t_auth_menu` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制-页面访问表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制-页面访问表';
 
 DROP TABLE IF EXISTS `t_auth_role`;
 CREATE TABLE `t_auth_role` (
@@ -91,7 +95,16 @@ CREATE TABLE `t_auth_role` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色表';
+
+INSERT INTO `t_auth_role` (`name`, `code`, `createTime`, `updateTime`)
+VALUES
+    ('等级0', 'Lv0', NULL, NULL),
+    ('等级1', 'Lv1', NULL, NULL),
+    ('等级2', 'Lv2', NULL, NULL),
+    ('等级3', 'Lv3', NULL, NULL),
+    ('等级4', 'Lv4', NULL, NULL),
+    ('等级5', 'Lv5', NULL, NULL);
 
 DROP TABLE IF EXISTS `t_auth_role_element_operation`;
 CREATE TABLE `t_auth_role_element_operation` (
@@ -100,7 +113,15 @@ CREATE TABLE `t_auth_role_element_operation` (
     `elementOperationId` bigint DEFAULT NULL COMMENT '元素操作id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色与元素操作关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色与元素操作关联表';
+
+INSERT INTO `t_auth_role_element_operation` (`roleId`, `elementOperationId`, `createTime`)
+VALUES
+    ('2', '1', NULL),
+    ('3', '1', NULL),
+    ('4', '1', NULL),
+    ('5', '1', NULL),
+    ('6', '1', NULL);
 
 DROP TABLE IF EXISTS `t_auth_role_menu`;
 CREATE TABLE `t_auth_role_menu` (
@@ -109,7 +130,7 @@ CREATE TABLE `t_auth_role_menu` (
     `menuId` bigint DEFAULT NULL COMMENT '页面菜单id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色页面菜单关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色页面菜单关联表';
 
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
@@ -118,5 +139,5 @@ CREATE TABLE `t_user_role` (
     `roleId` bigint DEFAULT NULL COMMENT '角色id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色关联表';
 
