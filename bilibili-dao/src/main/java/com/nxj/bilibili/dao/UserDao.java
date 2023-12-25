@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 @Mapper
@@ -29,7 +28,7 @@ public interface UserDao {
 
     Integer updateUserInfos(UserInfo userInfo);
 
-    List<UserInfo> getUserInfoByUserIds(@Param("userIdList") Set<Long> userIdList);
+    List<UserInfo> getUserInfoByUserIds(@Param("userIdSet") Set<Long> userIdSet);
 
     Integer pageCountUserInfos(Map<String, Object> params);
 

@@ -130,8 +130,8 @@ public class UserService {
         return userDao.getUserById(id);
     }
 
-    public List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList) {
-        return userDao.getUserInfoByUserIds(userIdList);
+    public List<UserInfo> getUserInfoByUserIds(Set<Long> userIdSet) {
+        return userDao.getUserInfoByUserIds(userIdSet);
     }
 
     public PageResult<UserInfo> pageListUserInfos(JSONObject params) {
