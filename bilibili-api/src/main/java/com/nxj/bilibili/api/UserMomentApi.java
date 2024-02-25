@@ -4,6 +4,7 @@ import com.nxj.bilibili.api.support.UserSupport;
 import com.nxj.bilibili.domain.JsonResponse;
 import com.nxj.bilibili.domain.UserMoment;
 import com.nxj.bilibili.domain.annotation.ApiLimitedRole;
+import com.nxj.bilibili.domain.annotation.DataLimited;
 import com.nxj.bilibili.domain.constant.AuthRoleConstant;
 import com.nxj.bilibili.service.UserMomentService;
 import io.swagger.annotations.Api;
@@ -25,6 +26,7 @@ public class UserMomentApi {
     private UserSupport userSupport;
 
     @ApiLimitedRole(limitedRoleCodeList = {AuthRoleConstant.ROLE_LV0})
+    @DataLimited
     @ApiOperation("发布动态")
     @ApiImplicitParam(name = "token", value = "用户认证令牌", required = true, dataType = "String", paramType = "header")
     @PostMapping("/user-moments")
