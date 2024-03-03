@@ -10,4 +10,5 @@ public interface UserRoleDao {
     public List<UserRole> getUserRoleByUserId(Long userId);
 
 
+    void addUserRole(UserRole userRole);
 }

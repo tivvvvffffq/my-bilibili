@@ -119,6 +119,15 @@
         limit #{start}, #{limit}
     </select>
 
+    <select id="getRefreshTokenDetail" resultType="com.nxj.bilibili.domain.RefreshTokenDetail">
+        select
+            *
+        from
+            t_refresh_token
+        where
+            refreshToken = #{refreshToken}
+    </select>
+
     <insert id="addUser" parameterType="com.nxj.bilibili.domain.User" useGeneratedKeys="true" keyProperty="id">
         insert into
             t_user(
@@ -155,5 +164,25 @@
                 #{createTime}
         )
     </insert>
+    <delete id="deleteRefreshToken">
+        delete from
+            t_refresh_token
+        where
+            refreshToken = #{refreshToken}
+          and userId = #{userId}
+    </delete>
+    <insert id="addRefreshToken">
+        insert into
+            t_refresh_token(
+            refreshToken,
+            userId,
+            createTime
+        )values(
+                   #{refreshToken},
+                   #{userId},
+                   #{createTime}
+               )
+    </insert>
+
 
 </mapper>

@@ -8,7 +8,7 @@ CREATE TABLE `t_user` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+) COMMENT='用户表';
 
 DROP TABLE IF EXISTS `t_user_info`;
 CREATE TABLE `t_user_info` (
@@ -22,7 +22,7 @@ CREATE TABLE `t_user_info` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户基本信息表';
+) COMMENT='用户基本信息表';
 
 DROP TABLE IF EXISTS `t_following_group`;
 CREATE TABLE `t_following_group` (
@@ -33,7 +33,7 @@ CREATE TABLE `t_following_group` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户关注分组表';
+) COMMENT='用户关注分组表';
 
 INSERT INTO `t_following_group` (`userId`, `name`, `type`, `createTime`, `updateTime`)
 VALUES
@@ -49,7 +49,7 @@ CREATE TABLE `t_user_following` (
     `groupId` bigint DEFAULT NULL COMMENT '关注分组id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户关注表';
+) COMMENT='用户关注表';
 
 DROP TABLE IF EXISTS `t_user_moments`;
 CREATE TABLE `t_user_moments` (
@@ -60,7 +60,7 @@ CREATE TABLE `t_user_moments` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户动态表';
+) COMMENT='用户动态表';
 
 DROP TABLE IF EXISTS `t_auth_element_operation`;
 CREATE TABLE `t_auth_element_operation` (
@@ -71,7 +71,7 @@ CREATE TABLE `t_auth_element_operation` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--页面元素操作表';
+) COMMENT='权限控制--页面元素操作表';
 
 INSERT INTO `t_auth_element_operation` (`elementName`, `elementCode`, `operationType`, `createTime`, `updateTime`)
 VALUES
@@ -85,7 +85,7 @@ CREATE TABLE `t_auth_menu` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制-页面访问表';
+) COMMENT='权限控制-页面访问表';
 
 DROP TABLE IF EXISTS `t_auth_role`;
 CREATE TABLE `t_auth_role` (
@@ -95,7 +95,7 @@ CREATE TABLE `t_auth_role` (
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色表';
+) COMMENT='权限控制--角色表';
 
 INSERT INTO `t_auth_role` (`name`, `code`, `createTime`, `updateTime`)
 VALUES
@@ -113,7 +113,7 @@ CREATE TABLE `t_auth_role_element_operation` (
     `elementOperationId` bigint DEFAULT NULL COMMENT '元素操作id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色与元素操作关联表';
+) COMMENT='权限控制--角色与元素操作关联表';
 
 INSERT INTO `t_auth_role_element_operation` (`roleId`, `elementOperationId`, `createTime`)
 VALUES
@@ -130,7 +130,7 @@ CREATE TABLE `t_auth_role_menu` (
     `menuId` bigint DEFAULT NULL COMMENT '页面菜单id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限控制--角色页面菜单关联表';
+) COMMENT='权限控制--角色页面菜单关联表';
 
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
@@ -139,5 +139,14 @@ CREATE TABLE `t_user_role` (
     `roleId` bigint DEFAULT NULL COMMENT '角色id',
     `createTime` datetime DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色关联表';
+) COMMENT='用户角色关联表';
+
+DROP TABLE IF EXISTS `t_refresh_token`;
+CREATE TABLE `t_refresh_token` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `userId` bigint DEFAULT NULL COMMENT '用户id',
+    `refreshToken` varchar(500) DEFAULT NULL COMMENT '刷新令牌',
+    `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) COMMENT='刷新令牌记录表';
 
