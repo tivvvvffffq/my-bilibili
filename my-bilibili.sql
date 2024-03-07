@@ -251,10 +251,42 @@ CREATE TABLE `t_video_like`  (
 
 DROP TABLE IF EXISTS `t_video_tag`;
 CREATE TABLE `t_video_tag`  (
-     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
      `videoId` bigint NOT NULL COMMENT '视频id',
      `tagId` bigint NOT NULL COMMENT '标签id',
      `createTime` datetime DEFAULT NULL COMMENT '创建时间',
      PRIMARY KEY (`id`) USING BTREE
 ) COMMENT = '视频标签关联表';
+
+DROP TABLE IF EXISTS `t_video_binary_picture`;
+CREATE TABLE `t_video_binary_picture` (
+      `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+      `videoId` bigint DEFAULT NULL COMMENT '视频id',
+      `frameNo` int DEFAULT NULL COMMENT '帧数',
+      `url` varchar(255) DEFAULT NULL COMMENT '图片链接',
+      `videoTimestamp` bigint DEFAULT NULL COMMENT '视频时间戳',
+      `createTime` datetime DEFAULT NULL,
+      PRIMARY KEY (`id`)
+) COMMENT='视频二值图记录表';
+
+DROP TABLE IF EXISTS `t_video_operation`;
+CREATE TABLE `t_video_operation` (
+      `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+      `userId` bigint DEFAULT NULL COMMENT '用户id',
+      `videoId` bigint DEFAULT NULL COMMENT '视频id',
+      `operationType` varchar(5) DEFAULT NULL COMMENT '操作类型：0点赞、1收藏、2投币',
+      `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+      PRIMARY KEY (`id`)
+) COMMENT='视频操作表';
+
+DROP TABLE IF EXISTS `t_video_view`;
+CREATE TABLE `t_video_view` (
+      `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+      `videoId` bigint NOT NULL COMMENT '视频id',
+      `userId` bigint DEFAULT NULL COMMENT '用户id',
+      `clientId` varchar(500) DEFAULT NULL COMMENT '客户端id',
+      `ip` varchar(50) DEFAULT NULL COMMENT 'ip',
+      `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+      PRIMARY KEY (`id`)
+) COMMENT='视频观看记录表';
 

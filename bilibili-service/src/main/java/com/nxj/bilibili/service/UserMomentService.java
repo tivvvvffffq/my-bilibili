@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class UserMomentService {
     public void addUserMoments(UserMoment userMoment) {
         userMoment.setCreateTime(new Date());
         userMomentDao.addUserMoments(userMoment);
-        rabbitMQUtil.produce(UserRoutingConstant.MOMENTS, JSONObject.toJSONString(userMoment));
+        rabbitMQUtil.produce(UserRoutingConstant.MOMENTS, JSONObject.toJSONString(userMoment).getBytes(StandardCharsets.UTF_8));
     }
 
     public List<UserMoment> getUserSubscribedMoments(Long userId) {

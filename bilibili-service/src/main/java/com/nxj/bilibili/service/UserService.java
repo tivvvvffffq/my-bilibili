@@ -191,4 +191,8 @@ public class UserService {
         }
         return new PageResult<>(total, list);
     }
+
+    public List<UserInfo> batchGetUserInfoByUserIds(Set<Long> userIdList) {
+        return userDao.batchGetUserInfoByUserIds(userIdList);
+    }
 }
